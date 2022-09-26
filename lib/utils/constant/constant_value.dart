@@ -2,12 +2,12 @@ class ConstantValue {
   ConstantValue._();
 
   static const String titleApps = 'titleApps';
-  static const String login = 'login';
-  static const String welcome = 'welcome';
-  static const String completed = 'completed';
 
-
+  ///Auth
   static const String keyToken = 'token';
 
-
+  ///ListDashboardMenu
+  static const String home = 'home';
+  static const String favorite = 'favorite';
+  static const String profile ='profile';
 }

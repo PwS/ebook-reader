@@ -1,5 +1,5 @@
-import 'package:ebook/utils/enum/app_theme_enum.dart';
 import 'package:flutter/material.dart';
+import 'package:ebook/utils/enum/app_theme_enum.dart';
 
 class AppThemes {
   static final appThemeData = {
