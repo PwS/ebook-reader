@@ -1,6 +1,7 @@
 import 'package:ebook/models/books/book.dart';
 import 'package:ebook/services/book/book_service.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class DetailCategoriesPage extends StatelessWidget {
   const DetailCategoriesPage({Key? key, required this.sourceCategories})
@@ -52,6 +53,7 @@ class DetailCategoriesPage extends StatelessWidget {
                                     Container(
                                       height: constraints.maxHeight / 2.5,
                                       decoration: BoxDecoration(
+                                        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                                           borderRadius:
                                               BorderRadius.circular(12)),
                                     ),
