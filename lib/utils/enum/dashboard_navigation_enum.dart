@@ -1,1 +1,1 @@
-enum DashboardNavigationItems { home, favorite, profile }
+enum DashboardNavigationItems { home, categories, favorite, profile }

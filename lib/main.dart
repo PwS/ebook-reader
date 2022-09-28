@@ -22,11 +22,11 @@ Future<void> main() async {
   ///Zoned Errors
   //ignore: deprecated_member_use
   BlocOverrides.runZoned(
-        () async {
+    () async {
       await EasyLocalization.ensureInitialized();
       runZonedGuarded(
         /// Lock device orientation to portrait & Default StatusBar Colors
-            () {
+        () {
           SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
               statusBarColor: ColourPalette.primary));
           runApp(EasyLocalization(
@@ -36,7 +36,7 @@ Future<void> main() async {
               path: AssetsPath.pathTranslations,
               child: const MyAppMobile()));
         },
-            (error, stackTrace) async {
+        (error, stackTrace) async {
           ///TODO Handle Error Purpose Outside of Zoned
         },
       );

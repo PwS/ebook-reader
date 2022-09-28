@@ -1,8 +1,8 @@
 import 'package:ebook/state_management/dashboard_navigation/dashboard_navigation_cubit.dart';
+import 'package:ebook/ui/pages/dashboard/categories/categories_page.dart';
 import 'package:ebook/ui/pages/dashboard/favorite/favorite_page.dart';
 import 'package:ebook/ui/pages/dashboard/home/home_page.dart';
 import 'package:ebook/ui/pages/dashboard/profile/profile_page.dart';
-import 'package:ebook/utils/constant/constant_value.dart';
 import 'package:ebook/utils/enum/dashboard_navigation_enum.dart';
 import 'package:ebook/utils/theme/styling_text.dart';
 import 'package:flutter/material.dart';
@@ -36,15 +36,19 @@ class DashBoard extends StatelessWidget {
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
-                    label: ConstantValue.home,
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.category_outlined),
+                    label: 'Categories',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.favorite),
-                    label: ConstantValue.favorite,
+                    label: 'Favorite',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person),
-                    label: ConstantValue.profile,
+                    label: 'Profile',
                   ),
                 ],
                 onTap: (index) {
@@ -53,8 +57,11 @@ class DashBoard extends StatelessWidget {
                         .getNavBarItem(DashboardNavigationItems.home);
                   } else if (index == 1) {
                     BlocProvider.of<DashboardNavigationCubit>(context)
-                        .getNavBarItem(DashboardNavigationItems.favorite);
+                        .getNavBarItem(DashboardNavigationItems.categories);
                   } else if (index == 2) {
+                    BlocProvider.of<DashboardNavigationCubit>(context)
+                        .getNavBarItem(DashboardNavigationItems.favorite);
+                  } else if (index == 3) {
                     BlocProvider.of<DashboardNavigationCubit>(context)
                         .getNavBarItem(DashboardNavigationItems.profile);
                   }
@@ -66,6 +73,9 @@ class DashBoard extends StatelessWidget {
               builder: (context, state) {
             if (state.navbarItem == DashboardNavigationItems.home) {
               return const HomePage();
+            } else if (state.navbarItem ==
+                DashboardNavigationItems.categories) {
+              return const CategoriesPage();
             } else if (state.navbarItem == DashboardNavigationItems.favorite) {
               return const FavoritePage();
             } else if (state.navbarItem == DashboardNavigationItems.profile) {

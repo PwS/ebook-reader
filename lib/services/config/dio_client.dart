@@ -28,7 +28,7 @@ class DioClient {
 
   Future<Response> getRequest(String url,
       {Map<String, dynamic>? queryParameters, bool withToken = true}) async {
-    String? token = await secureStorage.read(key: ConstantValue.keyToken);
+    String? token = await flutterSecureStorage.read(key: ConstantValue.keyToken);
     try {
       if (withToken) {
         _dio.options.headers['Authorization'] = 'bearer $token';
@@ -47,7 +47,7 @@ class DioClient {
   }) async {
     try {
       if (withToken) {
-        String? token = await secureStorage.read(key: ConstantValue.keyToken);
+        String? token = await flutterSecureStorage.read(key: ConstantValue.keyToken);
         _dio.options.headers['authorization'] = 'bearer $token';
       }
       return await _dio.post(url, queryParameters: queryParameter, data: data);

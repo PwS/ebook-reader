@@ -11,8 +11,6 @@ NavigatorState get navigatorKey => _navigatorKey.currentState!;
 
 Alice alice = Alice(showNotification: false, navigatorKey: _navigatorKey);
 
-FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-
 FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
 
 final prettyPrintLog = Logger(

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:ebook/ui/pages/dashboard/dashboard.dart';
 import 'package:ebook/utils/router_generator/routes_value.dart';
+import 'package:flutter/material.dart';
 
 class RouterGenerator {
   static Route onGenerateRoute(RouteSettings routeSettings) {

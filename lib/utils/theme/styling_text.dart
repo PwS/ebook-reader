@@ -1,6 +1,6 @@
+import 'package:ebook/utils/theme/colour_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ebook/utils/theme/colour_palette.dart';
 
 class StylingText {
   StylingText._();

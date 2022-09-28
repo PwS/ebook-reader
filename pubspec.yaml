@@ -33,6 +33,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
+  flutter_svg: ^1.1.5
   intl: ^0.17.0
   #LoggerBeautify
   logger: ^1.1.0
@@ -67,6 +68,8 @@ flutter:
 
   assets:
     - assets/translations/
+    - assets/icons/
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

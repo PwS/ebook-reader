@@ -13,13 +13,17 @@ class DashboardNavigationCubit extends Cubit<DashboardNavigationState> {
       case DashboardNavigationItems.home:
         emit(const DashboardNavigationState(DashboardNavigationItems.home, 0));
         break;
+      case DashboardNavigationItems.categories:
+        emit(const DashboardNavigationState(
+            DashboardNavigationItems.categories, 1));
+        break;
       case DashboardNavigationItems.favorite:
         emit(const DashboardNavigationState(
-            DashboardNavigationItems.favorite, 1));
+            DashboardNavigationItems.favorite, 2));
         break;
       case DashboardNavigationItems.profile:
         emit(const DashboardNavigationState(
-            DashboardNavigationItems.profile, 2));
+            DashboardNavigationItems.profile, 3));
         break;
     }
   }
