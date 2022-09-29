@@ -1,11 +1,12 @@
 import 'package:ebook/models/book/access_info/access_info.dart';
 import 'package:ebook/models/book/book.dart';
 import 'package:ebook/models/favorite_book/favorite_book.dart';
+import 'package:ebook/services/download/download_service.dart';
 import 'package:ebook/services/favorite/favorite_service.dart';
+import 'package:ebook/state_management/download_book/download_book_bloc.dart';
 import 'package:ebook/state_management/favorite/favorite_bloc.dart';
 import 'package:ebook/ui/custom_widgets/snackbar/custom_snackbar.dart';
 import 'package:ebook/utils/constant/assets_path.dart';
-import 'package:ebook/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -105,9 +106,18 @@ class DetailBook extends StatelessWidget {
             ),
           ],
         ),
-        bottomSheet: _DownloadButton(
-          downloadUrl:
-              getUrl(detailBooks.accessInfo.epub, detailBooks.accessInfo.pdf),
+        bottomSheet: RepositoryProvider<DownloadService>(
+          create: (context) => DownloadService(),
+          child: BlocProvider<DownloadBookBloc>(
+            create: (context) => DownloadBookBloc(
+                downloadService: context.read<DownloadService>())
+              ..add(LoadDownloadBookEvent()),
+            child: _DownloadButton(
+              idBooks: detailBooks.id,
+              downloadUrl: getUrl(
+                  detailBooks.accessInfo.epub, detailBooks.accessInfo.pdf),
+            ),
+          ),
         ),
       ),
     );
@@ -393,32 +403,81 @@ class _SynopsisBook extends StatelessWidget {
 
 class _DownloadButton extends StatelessWidget {
   final String downloadUrl;
+  final String idBooks;
 
-  const _DownloadButton({Key? key, required this.downloadUrl})
+  const _DownloadButton(
+      {Key? key, required this.idBooks, required this.downloadUrl})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      width: MediaQuery.of(context).size.width,
-      child: ElevatedButton(
-        onPressed: () async {
-          if (downloadUrl == '') {
-            return CustomShowSnackBar.basicSnackBar(
-                context, Colors.red, 'Downloads Link Not Available');
-          } else {
-            logger.i(downloadUrl);
-          }
-        },
-        child: Text(
-          'Download',
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(fontSize: 18, color: Colors.white),
-        ),
-      ),
+    return BlocConsumer<DownloadBookBloc, DownloadBookState>(
+      listener: (context, state) {
+        if (state is DownloadBookErrorState) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                  content: Text('Failed Downloads Book'),
+                  duration: Duration(seconds: 1)),
+            );
+        }
+        if (state is DownloadBookProgressLoading) {
+          AlertDialog(
+            backgroundColor: Colors.black,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator.adaptive(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Downloading : ${(state.progress * 100).toStringAsFixed(0)}',
+                  style: const TextStyle(fontSize: 17),
+                )
+              ],
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is DownloadBookLoadedState) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              onPressed: () async {
+                context.read<DownloadBookBloc>().add(AddDownloadBookEvent(
+                    idBooks,
+                    'http://books.google.co.id/books/download/Code_of_Federal_Regulations.epub?id=wtkvKlDxkbUC&hl=&output=epub&source=gbs_api'));
+                /*    if (downloadUrl == '') {
+                  return CustomShowSnackBar.basicSnackBar(
+                      context, Colors.red, 'Downloads Link Not Available');
+                } else {
+                  context
+                      .read<DownloadBookBloc>()
+                      .add(AddDownloadBookEvent(downloadUrl));
+                }*/
+              },
+              child: Text(
+                'Download',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2
+                    ?.copyWith(fontSize: 18, color: Colors.white),
+              ),
+            ),
+          );
+        } else {
+          return const Expanded(
+            child: Center(
+              child: Text("Opps! Something Went Wrong outside the state!",
+                  overflow: TextOverflow.ellipsis),
+            ),
+          );
+        }
+      },
     );
   }
 }

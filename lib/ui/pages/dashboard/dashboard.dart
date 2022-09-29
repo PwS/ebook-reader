@@ -2,6 +2,7 @@ import 'package:ebook/state_management/dashboard_navigation/dashboard_navigation
 import 'package:ebook/ui/pages/dashboard/categories/categories_page.dart';
 import 'package:ebook/ui/pages/dashboard/favorite/favorite_page.dart';
 import 'package:ebook/ui/pages/dashboard/home/home_page.dart';
+import 'package:ebook/ui/pages/dashboard/library/library_page.dart';
 import 'package:ebook/ui/pages/dashboard/profile/profile_page.dart';
 import 'package:ebook/utils/enum/dashboard_navigation_enum.dart';
 import 'package:ebook/utils/theme/styling_text.dart';
@@ -43,6 +44,10 @@ class DashBoard extends StatelessWidget {
                     label: 'Categories',
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.local_library),
+                    label: 'Library',
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.favorite),
                     label: 'Favorite',
                   ),
@@ -60,8 +65,11 @@ class DashBoard extends StatelessWidget {
                         .getNavBarItem(DashboardNavigationItems.categories);
                   } else if (index == 2) {
                     BlocProvider.of<DashboardNavigationCubit>(context)
-                        .getNavBarItem(DashboardNavigationItems.favorite);
+                        .getNavBarItem(DashboardNavigationItems.library);
                   } else if (index == 3) {
+                    BlocProvider.of<DashboardNavigationCubit>(context)
+                        .getNavBarItem(DashboardNavigationItems.favorite);
+                  } else if (index == 4) {
                     BlocProvider.of<DashboardNavigationCubit>(context)
                         .getNavBarItem(DashboardNavigationItems.profile);
                   }
@@ -76,6 +84,8 @@ class DashBoard extends StatelessWidget {
             } else if (state.navbarItem ==
                 DashboardNavigationItems.categories) {
               return const CategoriesPage();
+            } else if (state.navbarItem == DashboardNavigationItems.library) {
+              return const LibraryPage();
             } else if (state.navbarItem == DashboardNavigationItems.favorite) {
               return const FavoritePage();
             } else if (state.navbarItem == DashboardNavigationItems.profile) {
