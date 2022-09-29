@@ -1,8 +1,7 @@
 import 'package:ebook/ui/custom_widgets/headline/headline.dart';
 import 'package:ebook/ui/pages/dashboard/home/book_section/book_section.dart';
 import 'package:ebook/ui/pages/dashboard/home/popular_book/popular_book.dart';
-import 'package:ebook/ui/pages/dashboard/home/search/search_delegate_section.dart';
-import 'package:ebook/utils/theme/colour_palette.dart';
+import 'package:ebook/ui/pages/dashboard/home/search/custom_search_delegate.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,22 +12,14 @@ class HomePage extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
-        //physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             SizedBox(
               height: height / 2,
               child: Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     height: height / 2.5,
-                    decoration: const BoxDecoration(
-                      color: ColourPalette.primary,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(45),
-                        bottomRight: Radius.circular(45),
-                      ),
-                    ),
                     child: SafeArea(
                       minimum: const EdgeInsets.all(16),
                       child: Column(
@@ -37,6 +28,8 @@ class HomePage extends StatelessWidget {
                           const Spacer(),
                           const Text(
                             'Book',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
                           InkWell(
@@ -73,7 +66,7 @@ class HomePage extends StatelessWidget {
                               const Text('Most Popular'),
                               InkWell(
                                 onTap: () {},
-                                child: Text(
+                                child: const Text(
                                   "See All",
                                 ),
                               )
@@ -91,10 +84,10 @@ class HomePage extends StatelessWidget {
                     right: 0,
                     bottom: 0,
                     child: Container(
-                      height: height / 5.3,
+                      height: height / 4.5,
                       //height: constraints.maxHeight * 0.38,
                       margin: const EdgeInsets.only(left: 16),
-                      child: const PopularBooks(),
+                      child: const PopularBook(),
                     ),
                   ),
                 ],
@@ -104,8 +97,8 @@ class HomePage extends StatelessWidget {
               category: "Anime",
               showAll: "Anime",
             ),
-            SizedBox(
-              //color: Colors.grey.shade100,
+            Container(
+              padding: const EdgeInsets.only(top: 10),
               height: height / 3.4,
               child: const BookSection(category: 'anime'),
             ),
@@ -113,8 +106,8 @@ class HomePage extends StatelessWidget {
               category: "Action & Adventure",
               showAll: "Action & Adventure",
             ),
-            SizedBox(
-              //color: Colors.yellow,
+            Container(
+              padding: const EdgeInsets.only(top: 10),
               height: height / 3.4,
               child: const BookSection(category: 'action & adventure'),
             ),

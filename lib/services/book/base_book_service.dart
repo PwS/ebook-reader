@@ -1,4 +1,4 @@
-import 'package:ebook/models/books/book.dart';
+import 'package:ebook/models/book/book.dart';
 
 abstract class BaseBookService {
   Future<List<Book>> getBooks();

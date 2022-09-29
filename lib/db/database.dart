@@ -1,3 +1,4 @@
+import 'package:ebook/models/favorite_book/favorite_book.dart';
 import 'package:ebook/utils/utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -11,8 +12,11 @@ class Database {
 
   static void registerAdapterHive() {
     logger.i('Start Register Adapter');
+    Hive.registerAdapter(FavoriteBookAdapter());
+  }
 
-    ///TODO Register Adapter Model
-    /*Hive.registerAdapter(adapter)*/
+  static void closeBox() {
+    logger.i('Closing Box Hive');
+    Hive.deleteFromDisk();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:ebook/models/books/book.dart';
+import 'package:ebook/models/book/book.dart';
 import 'package:ebook/services/book/base_book_service.dart';
 import 'package:ebook/services/config/dio_client.dart';
 

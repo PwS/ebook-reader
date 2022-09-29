@@ -64,7 +64,9 @@ class VolumeInfo {
         panelizationSummary: json['panelizationSummary'] == null
             ? PanelizationSummary.empty
             : PanelizationSummary.fromJson(json['panelizationSummary']),
-        imageLinks: ImageLinks.fromJson(json['imageLinks']),
+        imageLinks: json['imageLinks'] == null
+            ? ImageLinks.empty
+            : ImageLinks.fromJson(json['imageLinks']),
         language: json['language'],
         previewLink: json['previewLink'],
         infoLink: json['infoLink'],
@@ -161,14 +163,16 @@ class PanelizationSummary {
 }
 
 class ImageLinks {
-  String? smallThumbnail;
-  String? thumbnail;
+  final String smallThumbnail;
+  final String thumbnail;
 
-  ImageLinks({this.smallThumbnail, this.thumbnail});
+  const ImageLinks({this.smallThumbnail = '', this.thumbnail = ''});
 
-  ImageLinks.fromJson(Map<String, dynamic> json) {
-    smallThumbnail = json['smallThumbnail'];
-    thumbnail = json['thumbnail'];
+  static const empty = ImageLinks();
+
+  factory ImageLinks.fromJson(Map<String, dynamic> json) {
+    return ImageLinks(
+        smallThumbnail: json['smallThumbnail'], thumbnail: json['thumbnail']);
   }
 
   Map<String, dynamic> toJson() {

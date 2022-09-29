@@ -1,7 +1,6 @@
-import 'package:ebook/models/books/book.dart';
+import 'package:ebook/models/book/book.dart';
 import 'package:ebook/services/book/book_service.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class DetailCategoriesPage extends StatelessWidget {
   const DetailCategoriesPage({Key? key, required this.sourceCategories})
@@ -27,7 +26,6 @@ class DetailCategoriesPage extends StatelessWidget {
               return GridView.builder(
                 itemCount: 35,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //childAspectRatio: 16 / 15,
                     crossAxisCount: 2,
                     mainAxisExtent: 260,
                     crossAxisSpacing: 0,
@@ -53,7 +51,6 @@ class DetailCategoriesPage extends StatelessWidget {
                                     Container(
                                       height: constraints.maxHeight / 2.5,
                                       decoration: BoxDecoration(
-                                        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                                           borderRadius:
                                               BorderRadius.circular(12)),
                                     ),
@@ -109,24 +106,6 @@ class DetailCategoriesPage extends StatelessWidget {
                                               fontSize:
                                                   constraints.maxWidth * 0.09,
                                               fontWeight: FontWeight.bold),
-                                    ),
-                                    Container(
-                                      height: constraints.maxHeight * 0.20,
-                                      width: constraints.maxWidth * 0.60,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Text(
-                                        "Page Count : ${snapshot.data?.items[index].volumeInfo.pageCount}",
-                                        style: TextStyle(
-                                            fontSize:
-                                                constraints.maxWidth * 0.08,
-                                            color: Colors.white),
-                                      ),
                                     ),
                                   ],
                                 ),

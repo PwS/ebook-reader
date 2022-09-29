@@ -1,9 +1,10 @@
-import 'package:ebook/models/books/book.dart';
+import 'package:ebook/models/book/book.dart';
 import 'package:ebook/services/book/book_service.dart';
+import 'package:ebook/ui/pages/dashboard/home/detail_book/detail_book.dart';
 import 'package:flutter/material.dart';
 
-class PopularBooks extends StatelessWidget {
-  const PopularBooks({
+class PopularBook extends StatelessWidget {
+  const PopularBook({
     Key? key,
   }) : super(key: key);
 
@@ -18,19 +19,21 @@ class PopularBooks extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
-            // print(snapshot.data?.items![0].id);
             return LayoutBuilder(builder: (context, constraints) {
               return ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                //itemCount: snapshot.data?.totalItems,
                 itemCount: 30,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailBook(
+                                  detailBooks: snapshot.data!.items[index],
+                                ))),
                     child: SizedBox(
-                      //width: width / 1.5,
                       width: constraints.maxWidth * 0.8,
                       child: Row(
                         children: [
@@ -63,8 +66,9 @@ class PopularBooks extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    "${snapshot.data?.items[index].volumeInfo.authors.length != 0 ? snapshot.data?.items[index].volumeInfo.authors[0] : "Censored"}",
-                                    // maxLines: 2,
+                                    snapshot.data == null
+                                        ? 'Unknown'
+                                        : "${snapshot.data!.items[index].volumeInfo.authors.isNotEmpty ? snapshot.data?.items[index].volumeInfo.authors[0] : "Censored"}",
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme
@@ -84,7 +88,9 @@ class PopularBooks extends StatelessWidget {
                                             fontSize:
                                                 constraints.maxWidth * 0.048)),
                                 Text(
-                                  "${snapshot.data?.items[index].volumeInfo.categories.length != 0 ? snapshot.data?.items[index].volumeInfo.categories[0] : "Unknown"}",
+                                  snapshot.data == null
+                                      ? 'Unknown'
+                                      : "${snapshot.data!.items[index].volumeInfo.categories.isNotEmpty ? snapshot.data?.items[index].volumeInfo.categories[0] : "Unknown"}",
                                   maxLines: 1,
                                   style: Theme.of(context)
                                       .textTheme
@@ -92,19 +98,6 @@ class PopularBooks extends StatelessWidget {
                                       ?.copyWith(
                                           fontSize:
                                               constraints.maxWidth * 0.038),
-                                ),
-                                const Spacer(),
-                                Container(
-                                  height: constraints.maxHeight * 0.2,
-                                  width: constraints.maxWidth * 0.18,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Text(
-                                    "\$${snapshot.data?.items[index].volumeInfo.pageCount ?? "96.9"}",
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
                                 ),
                                 const Spacer(
                                   flex: 2,

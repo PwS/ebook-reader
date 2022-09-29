@@ -1,7 +1,7 @@
-import 'package:ebook/models/books/access_info/access_info.dart';
-import 'package:ebook/models/books/sales_info/sales_info.dart';
-import 'package:ebook/models/books/search_info/search_info.dart';
-import 'package:ebook/models/books/volume_info/volume_info.dart';
+import 'package:ebook/models/book/access_info/access_info.dart';
+import 'package:ebook/models/book/sales_info/sales_info.dart';
+import 'package:ebook/models/book/search_info/search_info.dart';
+import 'package:ebook/models/book/volume_info/volume_info.dart';
 
 class ResponseBook {
   final String kind;

@@ -1,6 +1,9 @@
-import 'package:ebook/models/books/book.dart';
+import 'package:ebook/models/book/book.dart';
 import 'package:ebook/services/book/book_service.dart';
+import 'package:ebook/ui/pages/dashboard/home/detail_book/detail_book.dart';
+import 'package:ebook/utils/constant/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BookSection extends StatelessWidget {
   const BookSection({Key? key, required this.category}) : super(key: key);
@@ -8,8 +11,6 @@ class BookSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String errorLink =
-        "https://img.freepik.com/free-vector/funny-error-404-background-design_1167-219.jpg?w=740&t=st=1658904599~exp=1658905199~hmac=131d690585e96267bbc45ca0978a85a2f256c7354ce0f18461cd030c5968011c";
     return FutureBuilder(
         future: BookService().searchBooksResponse(category),
         builder: (context, AsyncSnapshot<ResponseBook> snapshot) {
@@ -27,7 +28,12 @@ class BookSection extends StatelessWidget {
                 itemCount: snapshot.data!.items.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailBook(
+                                  detailBooks: snapshot.data!.items[index],
+                                ))),
                     child: Container(
                       width: constraints.maxWidth * 0.30,
                       padding:
@@ -42,19 +48,23 @@ class BookSection extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)),
                             child: SizedBox(
-                              //height: height * 0.18,
                               height: constraints.maxHeight * 0.6,
                               width: constraints.maxWidth * 0.25,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child: Image(
-                                  image: NetworkImage(
-                                    snapshot.data?.items[index].volumeInfo
-                                            .imageLinks.smallThumbnail ??
-                                        errorLink,
-                                  ),
-                                  fit: BoxFit.fill,
-                                ),
+                                child: (snapshot.data == null ||
+                                        snapshot.data?.items[index].volumeInfo
+                                                .imageLinks.smallThumbnail ==
+                                            null)
+                                    ? SvgPicture.asset(
+                                        AssetsPath.illustrations_404)
+                                    : Image(
+                                        image: NetworkImage(
+                                          snapshot.data!.items[index].volumeInfo
+                                              .imageLinks.smallThumbnail,
+                                        ),
+                                        fit: BoxFit.fill,
+                                      ),
                               ),
                             ),
                           ),
@@ -68,20 +78,6 @@ class BookSection extends StatelessWidget {
                                 ?.copyWith(
                                     fontSize: constraints.maxWidth * 0.035,
                                     fontWeight: FontWeight.w500),
-                          ),
-                          Container(
-                            height: constraints.maxHeight * 0.1,
-                            width: constraints.maxWidth * 0.18,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Text(
-                              "\$${snapshot.data?.items[index].volumeInfo.pageCount}",
-                              style: TextStyle(
-                                  fontSize: constraints.maxWidth * 0.035,
-                                  color: Colors.white),
-                            ),
                           ),
                         ],
                       ),
